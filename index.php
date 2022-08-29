@@ -5,4 +5,5 @@ use classes\Permutation;
 define('BASE_PATH', dirname(realpath(__FILE__)) . '/');
 include (BASE_PATH . 'helpers/autoload.php');
 
-new Permutation();
+$permutationObject = new Permutation('12345', 3);
+echo $permutationObject->getCountPositions();
