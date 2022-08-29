@@ -18,6 +18,16 @@ class Permutation
         $this->stringLength = strlen($inputString);
     }
 
+    public function getCountPositions()
+    {
+        return $this->factorial($this->stringLength) / $this->factorial($this->stringLength - $this->countElements);
+    }
+
+    public function showPermutations()
+    {
+        $this->calcPermutations($this->inputString, $this->stringLength, $this->countElements);
+    }
+
     private function factorial($n)
     {
         if ($n <= 1) {
@@ -27,8 +37,17 @@ class Permutation
         }
     }
 
-    public function getCountPositions()
+    private function calcPermutations($str, $n, $k, $result = '')
     {
-        return $this->factorial($this->stringLength) / $this->factorial($this->stringLength - $this->countElements);
+        if ($k === 0) {
+            echo $result . '<br>';
+        } else {
+            for ($i = 0; $i <= $n - 1; $i++) {
+                $tempVar = $str[$i];
+                $str[$i] = $str[$n - 1];
+                $this->calcPermutations($str, $n - 1, $k - 1, $result . $tempVar);
+                $str[$i] = $tempVar;
+            }
+        }
     }
 }
