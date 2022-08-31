@@ -5,6 +5,8 @@
 
 namespace classes;
 
+use Exception;
+
 class Permutation
 {
     public $inputString;
@@ -14,18 +16,43 @@ class Permutation
     public function __construct($inputString, $countElements)
     {
         $this->inputString = $inputString;
-        $this->countElements = $countElements;
+        $this->countElements = $countElements ?? strlen($inputString);
         $this->stringLength = strlen($inputString);
+        if (empty($this->inputString)) {
+            throw new Exception('String can\'t be empty.');
+        }
+        if ($this->stringLength < $this->countElements) {
+            throw new Exception(
+                'The number of elements in a permutation'
+                . ' cannot be greater than the length of the string.'
+            );
+        }
     }
 
     public function getCountPositions()
     {
-        return $this->factorial($this->stringLength) / $this->factorial($this->stringLength - $this->countElements);
+        try {
+            return
+                $this->factorial($this->stringLength) /
+                $this->factorial($this->stringLength - $this->countElements);
+        } catch (Exception $e) {
+            echo 'Calculation error!';
+            die();
+        }
     }
 
     public function showPermutations()
     {
-        $this->calcPermutations($this->inputString, $this->stringLength, $this->countElements);
+        try {
+            $this->calcPermutations(
+                $this->inputString,
+                $this->stringLength,
+                $this->countElements
+            );
+        } catch(Exception $e) {
+            echo 'Calculation error!';
+            die();
+        }
     }
 
     private function factorial($n)
